@@ -1,7 +1,5 @@
 # spring-authorization-server
-An Authorization Server using Oauth2 to authorize access to resources, build using Gradle.
-
-An Authorization Server has one primarily job: issue an access token on behalf of a user.
+An Authorization Server using Oauth2 to authorize access to resources, build using Gradle. It has one primarily job: issue an access token on behalf of a user.
 
 We are going to use the **authorization code grant** flow to obtain a JWT (JSON Web Token). In this flow the user's browser will redirect to the authorization server, where the user will log in and be asked for permissions (or 'scope'). With the user's consent, the authorization server redirect the user back to the client, now with the access token, where it can be used to access the resource by passing it in the ***"Authorization"*** header.
 
