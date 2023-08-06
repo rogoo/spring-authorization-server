@@ -108,7 +108,7 @@ Now you can use the access token with a header ***"Authorization: Bearer"*** to 
 You can inspect the JWT in the https://jwt.io
 
 ### Requesting Another Access Token
-If he access token has expired just as for another using the refresh token.
+If he access token has expired just ask for another using the refresh token.
 > $ curl localhost:9000/oauth2/token \
 -H"Content-type: application/x-www-form-urlencoded" \
 -d"grant_type=refresh_token&refresh_token=10Hqw34..." \
