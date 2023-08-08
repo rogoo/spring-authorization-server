@@ -122,7 +122,33 @@ public RegisteredClientRepository registeredClientRepository(PasswordEncoder enc
 ```
 
 ## Enabling Securing API with Resource Server
-To secure your endpoints with the brand new Authorization server, add this dependency.
+To secure your endpoints with the brand new Authorization server, we need to take a few steps.
+
+First off, add this dependency.
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+</dependency>
 ```
 
+Add/change your SecurityFilterChain app to this. The *"SCOPE_"* prefix indicates that they should be matched against  OAuth2 scopes/permissions.
 ```
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	return http
+		.authorizeHttpRequests(
+				auth -> auth.requestMatchers(HttpMethod.GET, "/restapi/test").hasAuthority("SCOPE_write"))
+		.oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults())).build();
+}
+```
+You can't just trust any token received, and so you need to tell your app where to obtain the public key.
+```
+spring:
+   security:
+      oauth2:
+         resourceserver:
+            jwt:
+               jwk-set-uri: http:/ /localhost:9000/oauth2/jwks
+```
+Now you are all set and done. Go have fun!
