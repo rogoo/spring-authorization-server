@@ -74,7 +74,7 @@ A lot going on. In order of appearence:
 - enabling both authorization code and refresh token grants
 - redirect URL after authorization has been granted (you can have more than one)
 - scopes that the user we'll be able to allow access to.
-- without this client settings the scope would be implicitly granted after the user logs in.
+- without these client settings the scope would be implicitly granted after the user logs in.
 
 Finally, as we're producing JWT tokens, we have a few beans to produce a JWK (JSON Web Key).
 
@@ -111,3 +111,18 @@ If he access token has expired just ask for another using the refresh token.
 -H"Content-type: application/x-www-form-urlencoded" \
 -d"grant_type=refresh_token&refresh_token=10Hqw34..." \
 -u rod-admin-client:pass2
+
+## Increase Token Expiration Timeout
+Here we're setting the token expiration timeout to 45 minutes.
+```
+@Bean
+public RegisteredClientRepository registeredClientRepository(PasswordEncoder encoder) {
+   return <bla-bla-bla>.tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofMinutes(45L)).build())
+}
+```
+
+## Enabling Securing API with Resource Server
+To secure your endpoints with the brand new Authorization server, add this dependency.
+```
+
+```

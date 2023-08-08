@@ -5,6 +5,7 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.time.Duration;
 import java.util.UUID;
 
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -56,6 +58,7 @@ public class AuthorizationServerConfig {
 	public RegisteredClientRepository registeredClientRepository(PasswordEncoder encoder) {
 		RegisteredClient rc = RegisteredClient.withId(UUID.randomUUID().toString()).clientId("rod-admin-client")
 				.clientSecret(encoder.encode("pass2"))
+				.tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofMinutes(45L)).build())
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
 				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
 				.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
